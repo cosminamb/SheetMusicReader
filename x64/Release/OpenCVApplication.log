@@ -1,0 +1,23 @@
+﻿  stdafx.cpp
+  common.cpp
+  OpenCVApplication.cpp
+c:\an3\sem2\pi\lab\opencvapplication-vs2017_ocv340_basic\opencvapplication.cpp(625): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\an3\sem2\pi\lab\opencvapplication-vs2017_ocv340_basic\opencvapplication.cpp(626): warning C4244: '=': conversion from 'float' to '_Tp', possible loss of data
+          with
+          [
+              _Tp=uchar
+          ]
+c:\an3\sem2\pi\lab\opencvapplication-vs2017_ocv340_basic\opencvapplication.cpp(765): warning C4101: 'dim_out': unreferenced local variable
+c:\an3\sem2\pi\lab\opencvapplication-vs2017_ocv340_basic\opencvapplication.cpp(765): warning C4101: 'nr_acc': unreferenced local variable
+c:\an3\sem2\pi\lab\opencvapplication-vs2017_ocv340_basic\opencvapplication.cpp(842): warning C4101: 'dim_out': unreferenced local variable
+c:\an3\sem2\pi\lab\opencvapplication-vs2017_ocv340_basic\opencvapplication.cpp(842): warning C4101: 'nr_acc': unreferenced local variable
+c:\an3\sem2\pi\lab\opencvapplication-vs2017_ocv340_basic\opencvapplication.cpp(871): warning C4305: 'initializing': truncation from 'double' to 'float'
+  Generating code
+c:\an3\sem2\pi\lab\opencvapplication-vs2017_ocv340_basic\opencvapplication.cpp(788): warning C4715: 'histogram': not all control paths return a value
+c:\an3\sem2\pi\lab\opencvapplication-vs2017_ocv340_basic\opencvapplication.cpp(827): warning C4715: 'fdp': not all control paths return a value
+  All 432 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  OpenCVApplication.vcxproj -> C:\AN3\SEM2\PI\Lab\OpenCVApplication-VS2017_OCV340_basic\x64\Release\OpenCVApplication.exe
+  OpenCV\dll\Release\opencv_ffmpeg340_64.dll
+  OpenCV\dll\Release\opencv_world340.dll
+          2 file(s) copied.
