@@ -109,6 +109,11 @@ typedef struct {
 }MatchedNote;
 
 typedef struct {
+	MatchedNote note;
+	double score;
+}MatchedNoteWithScore;
+
+typedef struct {
 	int start;
 	int end;
 }Subset;
@@ -252,15 +257,15 @@ void load_templates() {
 	//templates.push_back({ en5, "empty" });
 	//templates.push_back({ en6, "empty" });
 
-	//templates.push_back({ cs1, "clef" });
-	templates.push_back({ cs2, "clef" });
+	templates.push_back({ cs1, "clef" });
+	//templates.push_back({ cs2, "clef" });
 
 	//templates.push_back({ dz1, "sharp" });
-	templates.push_back({ dz2, "sharp" });
+	//templates.push_back({ dz2, "sharp" });
 
 	templates.push_back({ bp2, "rest" });
 
-	templates.push_back({ bp1, "line" });
+	//templates.push_back({ bp1, "line" });
 	templates.push_back({ bp3, "end line" });
 
 	templates.push_back({ mp1, "masura" });
@@ -345,27 +350,59 @@ void metoda_template() {
 	MatchingMethod(0, 0);
 }
 
+bool compareByScore(MatchedNoteWithScore a, MatchedNoteWithScore b) {
+	return a.score < b.score;
+}
+
+bool contains(vector<MatchedNote> notes, MatchedNote noteToFind) {
+	for each(MatchedNote n in notes) {
+		if (n.p.x == noteToFind.p.x && n.p.y == noteToFind.p.y) {
+			return true;
+		}
+	}
+	return false;
+}
+
 void MatchingMethod(int, void*)
 {
 	for (int i = 0; i < 3; i++) {
 		Mat portativ = portativeFitrate.at(i);
 		vector<Subset> bounds = areas[i];
+		printf("%d bounds: %d\n", i, bounds.size());
+
 		for each(Subset s in bounds) {
 			Range rows(0, portativ.rows-1);
 			Range cols(s.start, s.end);
 			Mat subImg = portativ(rows, cols);
+			///TODO
+			vector<MatchedNoteWithScore> findBestMatch;
 			for each (TemplateType t in templates) {
 				if (subImg.cols >= t.templ.cols) {
 					matchTemplate(subImg, t.templ, result, TM_CCORR_NORMED);
-					normalize(result, result, 0, 1, NORM_MINMAX, -1, Mat());
+					//normalize(result, result, 0, 1, NORM_MINMAX, -1, Mat());
 					double minVal; double maxVal; Point minLoc; Point maxLoc;
 					Point matchLoc;
 					minMaxLoc(result, &minVal, &maxVal, &minLoc, &maxLoc, Mat());
 					matchLoc = maxLoc;// minLoc;
-					notes[i].push_back({ matchLoc, t.type });
-					
+					//notes[i].push_back({ matchLoc, t.type });
+					//printf("maxVal: %f\n", maxVal);
+					MatchedNote n = {matchLoc, t.type};
+					findBestMatch.push_back({n, maxVal});
+					//printf("size in loop: %d\n", findBestMatch.size());
 				}
 			}
+			//am facut match cu toate template-urile pt zona aleasa, trebuie sa vad care e cel mai bun
+			if (findBestMatch.size() > 0) {
+				sort(findBestMatch.begin(), findBestMatch.end(), compareByScore);
+				MatchedNote bestNote = findBestMatch.back().note;
+				if (bestNote.p.y > 31) {
+					if (!contains(notes[i], bestNote)) {
+						notes[i].push_back(bestNote);
+					}
+				}
+			}
+			//printf("size: %d\n", findBestMatch.size());
+
 		}
 	}
 	return;
@@ -451,9 +488,12 @@ void interest_areas() { //det unde sunt note in portativ
 			}
 			if (histograma_vector[i - 1] != 0 && histograma_vector[i] == 0) { //prev e black si eu sunt alb
 				dim = i - offset;				 //termina nota
-				subset.start = offset - WHITE_GAP;
-				subset.end = offset + dim + WHITE_GAP;
-				subsets.push_back(subset);
+				//if (dim > 20) {
+					subset.start = offset - WHITE_GAP;
+					subset.end = offset + dim + WHITE_GAP;
+					subsets.push_back(subset);
+				//}
+				
 				offset = 0;
 				dim = 0;
 			}
@@ -468,6 +508,7 @@ int main()
 	load_templates();
 	prelucrare_imagine_sursa();
 	interest_areas();
+	
 	metoda_template();
 
 	for (int i = 0; i < 3; i++) {
@@ -477,5 +518,6 @@ int main()
 			printf("%d: %s pos: x=%d, y=%d\n", i, n.noteName, n.p.x, n.p.y);
 		}
 	}
+	
 	return 0;
 }

@@ -1,6 +1,8 @@
 ﻿  OpenCVApplication.cpp
-c:\an3\sem2\pi\proiect\myproject\opencvapplication.cpp(143): warning C4101: 'dim_out': unreferenced local variable
-c:\an3\sem2\pi\proiect\myproject\opencvapplication.cpp(143): warning C4101: 'nr_acc': unreferenced local variable
+c:\an3\sem2\pi\proiect\myproject\opencvapplication.cpp(148): warning C4101: 'dim_out': unreferenced local variable
+c:\an3\sem2\pi\proiect\myproject\opencvapplication.cpp(148): warning C4101: 'nr_acc': unreferenced local variable
+c:\an3\sem2\pi\proiect\myproject\opencvapplication.cpp(371): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'unsigned __int64'
+  c:\an3\sem2\pi\proiect\myproject\opencvapplication.cpp(371): note: consider using '%zd' in the format string
   OpenCVApplication.vcxproj -> C:\AN3\SEM2\PI\proiect\myProject\x64\Debug\OpenCVApplication.exe
   OpenCV\dll\Debug\opencv_ffmpeg340_64.dll
   OpenCV\dll\Debug\opencv_world340d.dll
